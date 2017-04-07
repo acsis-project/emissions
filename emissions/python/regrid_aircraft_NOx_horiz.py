@@ -42,9 +42,11 @@ ukca_gws = '/group_workspaces/jasmin2/ukca/vol1/mkoehler/'
 # NOTE: all the fields in the file should be on the same horizontal
 #       grid, as the field used MAY NOT be the first in order of STASH
 grid_file=ukca_gws+'um/archer/ag542/apm.pp/ag542a.pm1988dec'
+#grid_file=ukca_gws+'um/monsoon/aa264/o3_apm.pp/aa264a.pm2000jan.pp'
 #
 # name of emissions file
 emissions_file=ukca_gws+'emissions/ACCMIP-MACCity_anthrop_1960-2020/sectors/NOx/MACCity_aircraft_NO_1960_0.5x0.5.nc'
+
 
 # --- BELOW THIS LINE, NOTHING SHOULD NEED TO BE CHANGED ---
 
@@ -54,6 +56,24 @@ print 'reading grid_file and guessing grid boundaries'
 
 # this is the grid we want to regrid to, e.g. N96 ENDGame
 grd=iris.load(grid_file)[0]
+#MOK test
+#print(grd)
+# output:
+#  product_of_sea_ice_albedo_and_sunlit_binary_mask / (1) (latitude: 144; longitude: 192)
+#       Dimension coordinates:
+#            latitude                                              x               -
+#            longitude                                             -               x
+#       Scalar coordinates:
+#            forecast_period: 2556.0 hours, bound=(2184.0, 2928.0) hours
+#            forecast_reference_time: 1988-09-01 00:00:00
+#            time: 1988-12-16 12:00:00, bound=(1988-12-01 00:00:00, 1989-01-01 00:00:00)
+#       Attributes:
+#            STASH: m01s00i509
+#            source: Data from Met Office Unified Model
+#            um_version: 10.4
+#       Cell methods:
+#            mean: time (1 hour)
+# end MOK
 grd.coord(axis='x').guess_bounds()
 grd.coord(axis='y').guess_bounds()
 
