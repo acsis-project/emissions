@@ -101,6 +101,7 @@ ocube.units=cf_units.Unit('kg m-2 s-1')
 ocube.attributes['vertical_scaling']='surface'
 ocube.attributes['um_stash_source']=stash
 ocube.attributes['tracer_name']=str.strip(species_name)
+
 # global attributes, so don't set in local_keys
 # NOTE: all these should be strings, including the numbers!
 # basic emissions type
@@ -108,7 +109,7 @@ ocube.attributes['emission_type']='1' # time series
 ocube.attributes['update_type']='1'   # same as above
 ocube.attributes['update_freq_in_hours']='120' # i.e. 5 days
 ocube.attributes['um_version']='10.4' # UM version
-ocube.attributes['source']='combined_sources_CO_1960-2020.nc'
+ocube.attributes['source']='combined_sources_CO_1960-2020_greg.nc'
 
 # rename and set time coord - mid-month from 1960-Jan to 2020-Dec
 # this bit is annoyingly fiddly
@@ -190,6 +191,7 @@ ocube.coord(axis='t').points=numpy.array([15.5, 45.5, 75.5, 106, 136.5, 167, 197
     21624.5, 21655, 21685.5, 21716, 21746.5, 21777.5, 21808, 21838.5, 21869,
     21899.5, 21930.5, 21960.5, 21990.5, 22021, 22051.5, 22082, 22112.5,
     22143.5, 22174, 22204.5, 22235, 22265.5])
+
 # make z-direction.
 zdims=iris.coords.DimCoord(numpy.array([0]),standard_name = 'model_level_number',
                            units='1',attributes={'positive':'up'})
