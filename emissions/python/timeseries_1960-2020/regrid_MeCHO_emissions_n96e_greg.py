@@ -43,7 +43,7 @@ import numpy
 grid_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/um/archer/ag542/apm.pp/ag542a.pm1988dec'
 #
 # name of emissions file
-emissions_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/emissions/combined_1960-2020/0.5x0.5/combined_sources_MeCHO_1960-2020_greg.nc'
+emissions_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/emissions/combined_1960-2020/0.5x0.5/combined_sources_MeCHO_lumped_1960-2020_greg.nc'
 #
 # STASH code emissions are associated with
 #  301-320: surface
@@ -101,6 +101,8 @@ ocube.units=cf_units.Unit('kg m-2 s-1')
 ocube.attributes['vertical_scaling']='surface'
 ocube.attributes['um_stash_source']=stash
 ocube.attributes['tracer_name']=str.strip(species_name)
+ocube.attributes['lumped_species']='acetaldehyde and other non-CH2O aldehydes'
+
 # global attributes, so don't set in local_keys
 # NOTE: all these should be strings, including the numbers!
 # basic emissions type
@@ -108,7 +110,7 @@ ocube.attributes['emission_type']='1' # time series
 ocube.attributes['update_type']='1'   # same as above
 ocube.attributes['update_freq_in_hours']='120' # i.e. 5 days
 ocube.attributes['um_version']='10.4' # UM version
-ocube.attributes['source']='combined_sources_MeCHO_1960-2020.nc'
+ocube.attributes['source']='combined_sources_MeCHO_lumped_1960-2020_greg.nc'
 
 # rename and set time coord - mid-month from 1960-Jan to 2020-Dec
 # this bit is annoyingly fiddly
@@ -190,6 +192,7 @@ ocube.coord(axis='t').points=numpy.array([15.5, 45.5, 75.5, 106, 136.5, 167, 197
     21624.5, 21655, 21685.5, 21716, 21746.5, 21777.5, 21808, 21838.5, 21869,
     21899.5, 21930.5, 21960.5, 21990.5, 22021, 22051.5, 22082, 22112.5,
     22143.5, 22174, 22204.5, 22235, 22265.5])
+
 # make z-direction.
 zdims=iris.coords.DimCoord(numpy.array([0]),standard_name = 'model_level_number',
                            units='1',attributes={'positive':'up'})
@@ -309,6 +312,6 @@ dict.__setitem__(ocube.attributes, 'missing_value', fillval)
 # now write-out to netCDF
 saver = iris.fileformats.netcdf.Saver(filename=outpath, netcdf_format='NETCDF3_CLASSIC')
 saver.update_global_attributes(Conventions=iris.fileformats.netcdf.CF_CONVENTIONS_VERSION)
-saver.write(ocube, local_keys=['vertical_scaling', 'missing_value','um_stash_source','tracer_name'])
+saver.write(ocube, local_keys=['vertical_scaling', 'missing_value','um_stash_source','tracer_name','lumped_species'])
 
 # end of script
