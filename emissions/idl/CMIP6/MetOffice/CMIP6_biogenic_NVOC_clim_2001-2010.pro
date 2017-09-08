@@ -2,7 +2,7 @@
 ;-----------------------------------------------------------------------------
 ;
 ;
-;   CMIP6_biogenic_C5H8_MAM_2001-2010.pro
+;   CMIP6_biogenic_NVOC_clim_2001-2010.pro
 ;
 ;
 ;   This program reads multi-annual MEGAN-MACC biogenic emissions files
@@ -11,8 +11,8 @@
 ;
 ;
 ;   Author:    Marcus Koehler
-;   Date:      25/08/2017
-;   Version:   1.0
+;   Date:      08/09/2017
+;   Version:   1.1
 ;
 ;
 ;-----------------------------------------------------------------------------
@@ -23,9 +23,9 @@
 ; path variables for raw data input files:
 
 workspace = '/group_workspaces/jasmin2/ukca/vol1/mkoehler/emissions/MEGAN-MACC_1980-2010/raw_data/'
-ifn = 'MEGAN-MACC_biogenic_isoprene_1980-2010_66428.nc'
+ifn = 'MEGAN-MACC_biogenic_methanol_1980-2010_66354.nc'
 
-ofn = 'MEGAN-MACC_biogenic_C5H8_MAM_2001-2010.nc'
+ofn = 'MEGAN-MACC_biogenic_NVOC_clim_2001-2010.nc'
 surffile = '/home/users/mkoehler/ukca_gws/data/surf_half_by_half_2.nc'
 
 ;------ no further changes should be needed below this line -------------------
@@ -129,14 +129,14 @@ for mth = 0,11 do begin
   total_emiss = total_emiss + total(meanfld[*,*,mth]*surf*secs_per_month,/double)
 endfor
 
-tot_ems_str = strcompress(string(total_emiss*1.e-9,format='(f6.2)'),/remove_all)+' Tg C5H8 per year (360d_cal)'
+tot_ems_str = strcompress(string(total_emiss*1.e-9,format='(f6.2)'),/remove_all)+' Tg CH3OH per year (360d_cal)'
 
 
 ;---- write out new emissions fluxes
 
-timeunits='months since 2006-01-01 00:00:00'
+timeunits='days since 2006-01-01 00:00:00'
 
-outtimes = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+outtimes = [ 16, 46, 76, 106, 136, 166, 196, 226, 256, 286, 316, 346 ]
 
 print,'creating netcdf file: ',ofn
 ncid=ncdf_create(ofn,/clobber)
@@ -147,6 +147,7 @@ latdim_id=ncdf_dimdef(ncid,'lat',n_elements(lats))
 
 timevar_id=ncdf_vardef(ncid,'time',timedim_id,/float)
 ncdf_attput,ncid,timevar_id,'units',timeunits
+ncdf_attput,ncid,timevar_id,'calendar','360_day'
 lonvar_id=ncdf_vardef(ncid,'lon',londim_id,/float)
 ncdf_attput,ncid,lonvar_id,'name','longitude'
 ncdf_attput,ncid,lonvar_id,'units','degrees_east'
@@ -156,19 +157,19 @@ ncdf_attput,ncid,latvar_id,'units','degrees_north'
 
 fieldvar_id=ncdf_vardef(ncid,'emiss_flux',[londim_id,latdim_id,timedim_id],/double)
 ncdf_attput,ncid,fieldvar_id,'units','kg m-2 s-1'
-ncdf_attput,ncid,fieldvar_id,'long_name','Biogenic surface C5H8 emissions'
-ncdf_attput,ncid,fieldvar_id,'standard_name','tendency_of_atmosphere_mass_content_of_isoprene_due_to_emission'
-ncdf_attput,ncid,fieldvar_id,'molecular_weight',68.12,/float
+ncdf_attput,ncid,fieldvar_id,'long_name','Biogenic surface methanol (CH3OH) emissions'
+ncdf_attput,ncid,fieldvar_id,'standard_name','tendency_of_atmosphere_mass_content_of_methanol_due_to_emission'
+ncdf_attput,ncid,fieldvar_id,'molecular_weight',32.04,/float
 ncdf_attput,ncid,fieldvar_id,'molecular_weight_units','g mol-1'
 
-ncdf_attput,ncid,/global,'title','Monthly surface emissions of isoprene, calculated using an arithmetic mean of monthly emission fluxes for the years 2001-2010'
+ncdf_attput,ncid,/global,'title','Monthly surface emissions of methanol, calculated using an arithmetic mean of monthly emission fluxes for the years 2001-2010'
 ncdf_attput,ncid,/global,'global_annual_total_emissions',tot_ems_str
 ncdf_attput,ncid,/global,'source','MEGAN-MACC Biogenic emission inventory - Data between year 1980 and 2010 from MEGAN-MACC distributed by Ether/ECCAD database http://eccad.sedoo.fr'
 ncdf_attput,ncid,/global,'reference','Sindelarova et al., Atmos. Chem. Phys., 2014'
 ncdf_attput,ncid,/global,'grid','regular 0.5x0.5 degree latitude-longitude grid'
 ncdf_attput,ncid,/global,'earth_ellipse','Earth spheric model'
 ncdf_attput,ncid,/global,'earth_radius',6371229.0,/float
-ncdf_attput,ncid,/global,'history',systime(/utc)+' UTC: CMIP6_biogenic_C5H8_MAM_2001-2010.pro v1.0'
+ncdf_attput,ncid,/global,'history',systime(/utc)+' UTC: CMIP6_biogenic_NVOC_clim_2001-2010.pro v1.1'
 ncdf_attput,ncid,/global,'institution','Centre for Atmospheric Science, Department of Chemistry, University of Cambridge, U.K.'
 ncdf_attput,ncid,/global,'licence','Note specific product user constraints and publication information available from the Ether/ECCAD database http:/eccad.sedoo.fr'
 

@@ -2,7 +2,7 @@
 ;-----------------------------------------------------------------------------
 ;
 ;
-;   CMIP6_biogenic_C3H8_MAM_2001-2010.pro
+;   CMIP6_biogenic_C3H8_clim_2001-2010.pro
 ;
 ;
 ;   This program reads multi-annual MEGAN-MACC biogenic emissions files
@@ -11,8 +11,8 @@
 ;
 ;
 ;   Author:    Marcus Koehler
-;   Date:      25/08/2017
-;   Version:   1.0
+;   Date:      08/09/2017
+;   Version:   1.1
 ;
 ;
 ;-----------------------------------------------------------------------------
@@ -26,7 +26,7 @@ workspace = '/group_workspaces/jasmin2/ukca/vol1/mkoehler/emissions/MEGAN-MACC_1
 ifn1 = 'MEGAN-MACC_biogenic_propane_1980-2010_85950.nc'
 ifn2 = 'MEGAN-MACC_biogenic_propene_1980-2010_758.nc'
 
-ofn = 'MEGAN-MACC_biogenic_C3H8_MAM_2001-2010.nc'
+ofn = 'MEGAN-MACC_biogenic_C3H8_clim_2001-2010.nc'
 surffile = '/home/users/mkoehler/ukca_gws/data/surf_half_by_half_2.nc'
 
 molw_C3H8 = 44.10d
@@ -170,9 +170,9 @@ tot_ems_str = strcompress(string(total_emiss*1.e-9,format='(f6.2)'),/remove_all)
 
 ;---- write out new emissions fluxes
 
-timeunits='months since 2006-01-01 00:00:00'
+timeunits='days since 2006-01-01 00:00:00'
 
-outtimes = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+outtimes = [ 16, 46, 76, 106, 136, 166, 196, 226, 256, 286, 316, 346 ]
 
 print,'creating netcdf file: ',ofn
 ncid=ncdf_create(ofn,/clobber)
@@ -183,6 +183,7 @@ latdim_id=ncdf_dimdef(ncid,'lat',n_elements(lats))
 
 timevar_id=ncdf_vardef(ncid,'time',timedim_id,/float)
 ncdf_attput,ncid,timevar_id,'units',timeunits
+ncdf_attput,ncid,timevar_id,'calendar','360_day'
 lonvar_id=ncdf_vardef(ncid,'lon',londim_id,/float)
 ncdf_attput,ncid,lonvar_id,'name','longitude'
 ncdf_attput,ncid,lonvar_id,'units','degrees_east'
@@ -204,7 +205,7 @@ ncdf_attput,ncid,/global,'reference','Sindelarova et al., Atmos. Chem. Phys., 20
 ncdf_attput,ncid,/global,'grid','regular 0.5x0.5 degree latitude-longitude grid'
 ncdf_attput,ncid,/global,'earth_ellipse','Earth spheric model'
 ncdf_attput,ncid,/global,'earth_radius',6371229.0,/float
-ncdf_attput,ncid,/global,'history',systime(/utc)+' UTC: CMIP6_biogenic_C3H8_MAM_2001-2010.pro v1.0'
+ncdf_attput,ncid,/global,'history',systime(/utc)+' UTC: CMIP6_biogenic_C3H8_clim_2001-2010.pro v1.1'
 ncdf_attput,ncid,/global,'institution','Centre for Atmospheric Science, Department of Chemistry, University of Cambridge, U.K.'
 ncdf_attput,ncid,/global,'licence','Note specific product user constraints and publication information available from the Ether/ECCAD database http:/eccad.sedoo.fr'
 
