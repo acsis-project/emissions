@@ -2,7 +2,7 @@
 ;-----------------------------------------------------------------------------
 ;
 ;
-;   CMIP6_biogenic_NVOC_clim_2001-2010.pro
+;   CMIP6_biogenic_MeOH_clim_2001-2010.pro
 ;
 ;
 ;   This program reads multi-annual MEGAN-MACC biogenic emissions files
@@ -11,8 +11,8 @@
 ;
 ;
 ;   Author:    Marcus Koehler
-;   Date:      08/09/2017
-;   Version:   1.2
+;   Date:      28/09/2017
+;   Version:   1.0
 ;
 ;
 ;-----------------------------------------------------------------------------
@@ -25,7 +25,7 @@
 workspace = '/group_workspaces/jasmin2/ukca/vol1/mkoehler/emissions/MEGAN-MACC_1980-2010/raw_data/'
 ifn = 'MEGAN-MACC_biogenic_methanol_1980-2010_66354.nc'
 
-ofn = 'MEGAN-MACC_biogenic_NVOC_clim_2001-2010.nc'
+ofn = 'MEGAN-MACC_biogenic_MeOH_clim_2001-2010.nc'
 surffile = '/home/users/mkoehler/ukca_gws/data/surf_half_by_half_2.nc'
 
 ;------ no further changes should be needed below this line -------------------
@@ -169,7 +169,7 @@ ncdf_attput,ncid,/global,'reference','Sindelarova et al., Atmos. Chem. Phys., 20
 ncdf_attput,ncid,/global,'grid','regular 0.5x0.5 degree latitude-longitude grid'
 ncdf_attput,ncid,/global,'earth_ellipse','Earth spheric model'
 ncdf_attput,ncid,/global,'earth_radius',6371229.0,/float
-ncdf_attput,ncid,/global,'history',systime(/utc)+' UTC: CMIP6_biogenic_NVOC_clim_2001-2010.pro v1.1'
+ncdf_attput,ncid,/global,'history',systime(/utc)+' UTC: CMIP6_biogenic_MeOH_clim_2001-2010.pro v1.0'
 ncdf_attput,ncid,/global,'institution','Centre for Atmospheric Science, Department of Chemistry, University of Cambridge, U.K.'
 ncdf_attput,ncid,/global,'licence','Note specific product user constraints and publication information available from the Ether/ECCAD database http:/eccad.sedoo.fr'
 
