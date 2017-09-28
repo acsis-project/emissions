@@ -11,8 +11,8 @@
 ;
 ;
 ;   Author:    Marcus Koehler
-;   Date:      08/09/2017
-;   Version:   1.1
+;   Date:      28/09/2017
+;   Version:   1.2
 ;
 ;
 ;-----------------------------------------------------------------------------
@@ -162,7 +162,7 @@ tot_ems_str = strcompress(string(total_emiss*1.e-9,format='(f6.2)'),/remove_all)
 
 timeunits='days since 2006-01-01 00:00:00'
 
-outtimes = [ 16, 46, 76, 106, 136, 166, 196, 226, 256, 286, 316, 346 ]
+outtimes = [ 15, 45, 75, 105, 135, 165, 195, 225, 255, 285, 315, 345 ]
 
 print,'creating netcdf file: ',ofn
 ncid=ncdf_create(ofn,/clobber)
