@@ -205,7 +205,7 @@ ncdf_attput,ncid,/global,'reference','Sindelarova et al., Atmos. Chem. Phys., 20
 ncdf_attput,ncid,/global,'grid','regular 0.5x0.5 degree latitude-longitude grid'
 ncdf_attput,ncid,/global,'earth_ellipse','Earth spheric model'
 ncdf_attput,ncid,/global,'earth_radius',6371229.0,/float
-ncdf_attput,ncid,/global,'history',systime(/utc)+' UTC: CMIP6_biogenic_Me2CO_clim_2001-2010.pro v1.1'
+ncdf_attput,ncid,/global,'history',systime(/utc)+' UTC: CMIP6_biogenic_Me2CO_clim_2001-2010.pro v1.2'
 ncdf_attput,ncid,/global,'institution','Centre for Atmospheric Science, Department of Chemistry, University of Cambridge, U.K.'
 ncdf_attput,ncid,/global,'licence','Note specific product user constraints and publication information available from the Ether/ECCAD database http:/eccad.sedoo.fr'
 
