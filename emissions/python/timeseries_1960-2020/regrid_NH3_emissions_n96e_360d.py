@@ -6,7 +6,7 @@
 #
 #
 #  Requirements:
-#  Iris 1.10, cf_units, numpy
+#  Iris 1.10, time, cf_units, numpy
 #
 #
 #  This Python script has been written by N.L. Abraham as part of the UKCA Tutorials:
@@ -26,11 +26,13 @@
 #  You find a copy of the GNU Lesser General Public License at <http://www.gnu.org/licenses/>.
 #
 #  Written by N. Luke Abraham 2016-10-20 <nla27@cam.ac.uk> 
+#  Modified by Marcus Koehler 2017-10-11 <mok21@cam.ac.uk>
 #
 #
 ##############################################################################################
 
 # preamble
+import time
 import iris
 import cf_units
 import numpy
@@ -43,7 +45,8 @@ import numpy
 grid_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/um/archer/ag542/apm.pp/ag542a.pm1988dec'
 #
 # name of emissions file
-emissions_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/emissions/combined_1960-2020/0.5x0.5/combined_sources_NH3_1960-2020_360d.nc'
+# NOTE: We use the fluxes from the Gregorian calendar file also for the 360_day emission files
+emissions_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/emissions/combined_1960-2020/0.5x0.5/combined_sources_NH3_1960-2020_greg.nc'
 #
 # STASH code emissions are associated with
 #  301-320: surface
@@ -57,46 +60,33 @@ stash='m01s00i127'
 
 species_name='NH3'
 
-print '0'
-
 # this is the grid we want to regrid to, e.g. N96 ENDGame
 grd=iris.load(grid_file)[0]
 grd.coord(axis='x').guess_bounds()
 grd.coord(axis='y').guess_bounds()
 
-print '1'
-
 # This is the original data
 ems=iris.load_cube(emissions_file)
-
-print '2'
 
 # make intersection between 0 and 360 longitude to ensure that 
 # the data is regridded correctly
 nems = ems.intersection(longitude=(0, 360))
 
-print '3'
-
 # make sure that we use the same coordinate system, otherwise regrid won't work
 nems.coord(axis='x').coord_system=grd.coord_system()
 nems.coord(axis='y').coord_system=grd.coord_system()
-
-print '4'
 
 # now guess the bounds of the new grid prior to regridding
 nems.coord(axis='x').guess_bounds()
 nems.coord(axis='y').guess_bounds()
 
-print '5'
-
 # now regrid
 ocube=nems.regrid(grd,iris.analysis.AreaWeighted())
-
-print '6'
 
 # now add correct attributes and names to netCDF file
 ocube.var_name='emissions_'+str.strip(species_name)
 ocube.long_name='ammonia gas emissions'
+ocube.standard_name='tendency_of_atmosphere_mass_content_of_ammonia_due_to_emission'
 ocube.units=cf_units.Unit('kg m-2 s-1')
 ocube.attributes['vertical_scaling']='surface'
 ocube.attributes['um_stash_source']=stash
@@ -108,8 +98,18 @@ ocube.attributes['tracer_name']=str.strip(species_name)
 ocube.attributes['emission_type']='1' # time series
 ocube.attributes['update_type']='1'   # same as above
 ocube.attributes['update_freq_in_hours']='120' # i.e. 5 days
-ocube.attributes['um_version']='10.4' # UM version
-ocube.attributes['source']='combined_sources_NH3_1960-2020_360d.nc'
+ocube.attributes['um_version']='10.6' # UM version
+ocube.attributes['source']='combined_sources_NH3_1960-2020_greg.nc'
+ocube.attributes['title']='Time-varying monthly surface emissions of ammonia from 1960 to 2020'
+ocube.attributes['File_version']='v2'
+ocube.attributes['File_creation_date']=time.ctime(time.time())
+ocube.attributes['grid']='regular 1.875 x 1.25 degree longitude-latitude grid (N96e)'
+ocube.attributes['history']=time.ctime(time.time())+': '+__file__+' \n'+ocube.attributes['history']
+ocube.attributes['institution']='Centre for Atmospheric Science, Department of Chemistry, University of Cambridge, U.K.'
+ocube.attributes['reference']='Granier et al., Clim. Change, 2011; Lamarque et al., Atmos. Chem. Phys., 2010'
+
+del ocube.attributes['file_creation_date']
+del ocube.attributes['description']
 
 # rename and set time coord - mid-month from 1960-Jan to 2020-Dec
 # this bit is annoyingly fiddly
