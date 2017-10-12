@@ -6,7 +6,7 @@
 #
 #
 #  Requirements:
-#  Iris 1.10, cf_units, numpy
+#  Iris 1.10, time, cf_units, numpy
 #
 #
 #  This Python script has been written by N.L. Abraham as part of the UKCA Tutorials:
@@ -26,11 +26,13 @@
 #  You find a copy of the GNU Lesser General Public License at <http://www.gnu.org/licenses/>.
 #
 #  Written by N. Luke Abraham 2016-10-20 <nla27@cam.ac.uk> 
+#  Modified by Marcus Koehler 2017-10-12 <mok21@cam.ac.uk>
 #
 #
 ##############################################################################################
 
 # preamble
+import time
 import iris
 import cf_units
 import numpy
@@ -84,6 +86,7 @@ ocube=iris.load_cube(emissions_file)
 # now add correct attributes and names to netCDF file
 ocube.var_name='emissions_NO_aircrft'
 ocube.long_name='NOx aircraft emissions'
+ocube.standard_name='tendency_of_mass_concentration_of_nox_expressed_as_nitrogen_monoxide_in_air_due_to_emission_from_aviation'
 ocube.units=cf_units.Unit('kg m-2 s-1')
 ocube.attributes['vertical_scaling']='all_levels'
 ocube.attributes['um_stash_source']=stash
@@ -95,9 +98,15 @@ ocube.attributes['tracer_name']='NO_aircrft'
 ocube.attributes['emission_type']='1' # time series
 ocube.attributes['update_type']='1'   # same as above
 ocube.attributes['update_freq_in_hours']='120' # i.e. 5 days
-ocube.attributes['um_version']='10.4' # UM version
+ocube.attributes['um_version']='10.6' # UM version
 ocube.attributes['source']='MACCity_aircraft_NO_1960-2020_n96l85.nc'
-ocube.attributes['data_version']='Beta release'
+ocube.attributes['title']='Time-varying monthly aircraft emissions of NOx expressed as nitrogen monoxide from 1960 to 2020'
+ocube.attributes['File_version']='v2'
+ocube.attributes['File_creation_date']=time.ctime(time.time())
+ocube.attributes['grid']='regular 1.875 x 1.25 degree longitude-latitude grid (N96e)'
+ocube.attributes['history']=time.ctime(time.time())+': '+__file__+' \n'+ocube.attributes['history']
+ocube.attributes['institution']='Centre for Atmospheric Science, Department of Chemistry, University of Cambridge, U.K.'
+ocube.attributes['reference']='Granier et al., Clim. Change, 2011; Lamarque et al., Atmos. Chem. Phys., 2010; Lee et al., Atmos. Env., 2009'
 
 # rename and set time coord - mid-month from 1960-Jan to 2020-Dec
 # this bit is annoyingly fiddly
