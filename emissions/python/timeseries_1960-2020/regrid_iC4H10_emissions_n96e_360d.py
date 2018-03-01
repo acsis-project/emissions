@@ -46,7 +46,7 @@ grid_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/um/archer/ag542/apm.pp/a
 #
 # name of emissions file 
 # NOTE: We use the fluxes from the Gregorian calendar file also for the 360_day emission files
-emissions_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/emissions/combined_1960-2020/0.5x0.5/combined_sources_iso-butane_1960-2020_greg.nc'
+emissions_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/emissions/OXBUDS/0.5x0.5/v3/combined_sources_iso-butane_1960-2020_v3_greg.nc'
 
 # --- BELOW THIS LINE, NOTHING SHOULD NEED TO BE CHANGED ---
 
@@ -90,14 +90,14 @@ ocube.attributes['emission_type']='1' # time series
 ocube.attributes['update_type']='1'   # same as above
 ocube.attributes['update_freq_in_hours']='120' # i.e. 5 days
 ocube.attributes['um_version']='10.6' # UM version
-ocube.attributes['source']='combined_sources_iso-butane_1960-2020_greg.nc'
+ocube.attributes['source']='combined_sources_iso-butane_1960-2020_v3_greg.nc'
 ocube.attributes['title']='Time-varying monthly surface emissions of iso-butane from 1960 to 2020.'
-ocube.attributes['File_version']='v2'
+ocube.attributes['File_version']='v3'
 ocube.attributes['File_creation_date']=time.ctime(time.time())
 ocube.attributes['grid']='regular 1.875 x 1.25 degree longitude-latitude grid (N96e)'
 ocube.attributes['history']=time.ctime(time.time())+': '+__file__+' \n'+ocube.attributes['history']
 ocube.attributes['institution']='Centre for Atmospheric Science, Department of Chemistry, University of Cambridge, U.K.'
-ocube.attributes['reference']='Granier et al., Clim. Change, 2011; Lamarque et al., Atmos. Chem. Phys., 2010'
+ocube.attributes['reference']='Granier et al., Clim. Change, 2011; Lamarque et al., Atmos. Chem. Phys., 2010; Helmig et al., Atmos. Environ., 2014.'
 
 del ocube.attributes['file_creation_date']
 del ocube.attributes['description']
