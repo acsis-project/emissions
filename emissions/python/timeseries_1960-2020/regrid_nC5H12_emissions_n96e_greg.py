@@ -45,11 +45,11 @@ import numpy
 grid_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/um/archer/ag542/apm.pp/ag542a.pm1988dec'
 #
 # name of emissions file
-emissions_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/emissions/OXBUDS/0.5x0.5/v3/combined_sources_n-butane_1960-2020_v3_greg.nc'
+emissions_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/emissions/OXBUDS/0.5x0.5/v3/combined_sources_n-pentane_1960-2020_v3_greg.nc'
 
 # --- BELOW THIS LINE, NOTHING SHOULD NEED TO BE CHANGED ---
 
-species_name='n-C4H10'
+species_name='n-C5H12'
 
 # this is the grid we want to regrid to, e.g. N96 ENDGame
 grd=iris.load(grid_file)[0]
@@ -76,8 +76,7 @@ ocube=nems.regrid(grd,iris.analysis.AreaWeighted())
 
 # now add correct attributes and names to netCDF file
 ocube.var_name='emissions_'+str.strip(species_name)
-ocube.long_name='n-butane surface emissions'
-ocube.standard_name='tendency_of_atmosphere_mass_content_of_butane_due_to_emission'
+ocube.long_name='n-pentane surface emissions'
 ocube.units=cf_units.Unit('kg m-2 s-1')
 ocube.attributes['vertical_scaling']='surface'
 ocube.attributes['tracer_name']=str.strip(species_name)
@@ -89,8 +88,8 @@ ocube.attributes['emission_type']='1' # time series
 ocube.attributes['update_type']='1'   # same as above
 ocube.attributes['update_freq_in_hours']='120' # i.e. 5 days
 ocube.attributes['um_version']='10.6' # UM version
-ocube.attributes['source']='combined_sources_n-butane_1960-2020_v3_greg.nc'
-ocube.attributes['title']='Time-varying monthly surface emissions of n-butane from 1960 to 2020.'
+ocube.attributes['source']='combined_sources_n-pentane_1960-2020_v3_greg.nc'
+ocube.attributes['title']='Time-varying monthly surface emissions of n-pentane from 1960 to 2020.'
 ocube.attributes['File_version']='v3'
 ocube.attributes['File_creation_date']=time.ctime(time.time())
 ocube.attributes['grid']='regular 1.875 x 1.25 degree longitude-latitude grid (N96e)'
@@ -293,7 +292,7 @@ fillval=1e+20
 ocube.data = numpy.ma.array(data=ocube.data, fill_value=fillval, dtype='float32')
 
 # output file name, based on species
-outpath='ukca_emiss_nC4H10.nc'
+outpath='ukca_emiss_nC5H12.nc'
 # don't want time to be cattable, as is a periodic emissions file
 iris.FUTURE.netcdf_no_unlimited=True
 # annoying hack to set a missing_value attribute as well as a _FillValue attribute
