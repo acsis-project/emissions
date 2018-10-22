@@ -46,7 +46,7 @@ grid_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/um/archer/ag542/apm.pp/a
 #
 # name of emissions file 
 # NOTE: We use the fluxes from the Gregorian calendar file also for the 360_day emission files
-emissions_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/emissions/CMIP6/0.5x0.5_combined_hybrid/CMIP6_hybrid_combined_CO_1960-2020_greg.nc'
+emissions_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/emissions/CMIP6/0.5x0.5_combined_hybrid/v2/CMIP6_hybrid_combined_CO_1960-2020_greg_v2.nc'
 #
 # STASH code emissions are associated with
 #  301-320: surface
@@ -99,9 +99,9 @@ ocube.attributes['emission_type']='1' # time series
 ocube.attributes['update_type']='1'   # same as above
 ocube.attributes['update_freq_in_hours']='120' # i.e. 5 days
 ocube.attributes['um_version']='10.6' # UM version
-ocube.attributes['source']='CMIP6_hybrid_combined_CO_1960-2020_greg.nc'
+ocube.attributes['source']='CMIP6_hybrid_combined_CO_1960-2020_greg_v2.nc'
 ocube.attributes['title']='Time-varying monthly surface emissions of carbon monoxide from 1960 to 2020'
-ocube.attributes['File_version']='CMIP6_hybrid_v1'
+ocube.attributes['File_version']='CMIP6_hybrid_v2'
 ocube.attributes['File_creation_date']=time.ctime(time.time())
 ocube.attributes['grid']='regular 1.875 x 1.25 degree longitude-latitude grid (N96e)'
 ocube.attributes['history']=time.ctime(time.time())+': '+__file__+' \n'+ocube.attributes['history']

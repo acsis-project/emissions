@@ -18,8 +18,8 @@
 ;
 ;
 ;   Author:   Marcus Koehler
-;   Date:     March 2018
-;   Version:  1.0
+;   Date:     April 2018
+;   Version:  2.0
 ;
 ;
 ;-----------------------------------------------------------------------------
@@ -36,12 +36,12 @@
 
 ukca_gws     = '/group_workspaces/jasmin2/ukca/vol1/mkoehler/'
 
-anthrop_file = ukca_gws+'emissions/CMIP6/anthrop/CMIP6_CEDS+RCP85_anthropogenic_butanes_1960-2020.nc'
+anthrop_file = ukca_gws+'emissions/CMIP6/anthrop/v2/CMIP6_CEDS_anthropogenic_butanes_1960-2020_v2.nc'
 bioburn_file = ukca_gws+'emissions/ACCMIP-MACCity_bioburn_1960-2008/Butanes/historic/newfile.nc'
 
 ; output file:
 
-ofn          = ukca_gws+'emissions/OXBUDS/CMIP6_hybrid_combined_n-butane_1960-2020_v1_greg.nc'
+ofn          = ukca_gws+'emissions/OXBUDS/CMIP6_hybrid_combined_n-butane_1960-2020_v2_greg.nc'
 gregorian    = 1  ; set to 1 for Gregorian or 0 for 360-day calendar
 
 
@@ -152,8 +152,8 @@ ncdf_close,ncid
 
 print,'opening csv files to write out total emissions...'
 
-openw, unit1, ukca_gws+'emissions/OXBUDS/CMIP6_hybrid_n-butane_monthly_combined.csv', /get_lun
-openw, unit2, ukca_gws+'emissions/OXBUDS/CMIP6_hybrid_n-butane_annual_combined.csv', /get_lun
+openw, unit1, ukca_gws+'emissions/OXBUDS/CMIP6_hybrid_n-butane_monthly_combined_v2.csv', /get_lun
+openw, unit2, ukca_gws+'emissions/OXBUDS/CMIP6_hybrid_n-butane_annual_combined_v2.csv', /get_lun
 
 outfield = fltarr(n_elements(lons),n_elements(lats),n_elements(numdays))
 
@@ -309,10 +309,10 @@ ncdf_attput,ncid,fieldvar_id,'long_name','Surface n-C4H10 emissions'
 ncdf_attput,ncid,fieldvar_id,'molecular_weight',58.12,/float
 ncdf_attput,ncid,fieldvar_id,'molecular_weight_units','g mol-1'
 ncdf_attput,ncid,fieldvar_id,'butanes_fraction',part_factor,/float
-ncdf_attput,ncid,/global,'history',systime(/utc)+' UTC: CMIP6_hybrid_combined_n-butane_1960-2020.pro v1.0'
+ncdf_attput,ncid,/global,'history',systime(/utc)+' UTC: CMIP6_hybrid_combined_n-butane_1960-2020.pro v2.0'
 ncdf_attput,ncid,/global,'file_creation_date',systime(/utc)+' UTC'
 ncdf_attput,ncid,/global,'description','Time-varying monthly surface emissions of n-butane from 1960 to 2020.'
-ncdf_attput,ncid,/global,'source','The emissions flux in this file comprises combined emissions from anthropogenic and biomass burning. CEDS provides anthropogenic emissions from 1960 to 2014. MACCity provides biomass burning emissions from 1960 to 2008. Anthropogenic emissions from 2015 to 2020 and biomass burning emissions from 2009 to 2020 have been taken from the ACCMIP linearly interpolated RCP8.5 data set.'
+ncdf_attput,ncid,/global,'source','The emissions flux in this file comprises combined emissions from anthropogenic and biomass burning. CEDS provides anthropogenic emissions from 1960 to 2014, for 2015-2020 the monthly emissions fluxes of 2014 are perpetually applied. MACCity provides biomass burning emissions from 1960 to 2008. Biomass burning emissions from 2009 to 2020 have been taken from the ACCMIP linearly interpolated RCP8.5 data set.'
 ncdf_attput,ncid,/global,'partitioning','n-butane is 65% of all butanes'
 ncdf_attput,ncid,/global,'reference','Hoesly et al., Geosci. Mod. Dev., 2018; Lamarque et al., Atmos. Chem. Phys., 2010; Granier et al., Clim. Change, 2011;  Helmig et al., Atmos. Environ., 2014.'
 ncdf_attput,ncid,/global,'grid','regular 0.5x0.5 degree latitude-longitude grid'

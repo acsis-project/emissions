@@ -46,7 +46,7 @@ grid_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/um/archer/ag542/apm.pp/a
 #
 # name of emissions file 
 # NOTE: We use the fluxes from the Gregorian calendar file also for the 360_day emission files
-emissions_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/emissions/OXBUDS/0.5x0.5/cmip6_hybrid/CMIP6_hybrid_combined_iso-butane_1960-2020_v1_greg.nc'
+emissions_file='/group_workspaces/jasmin2/ukca/vol1/mkoehler/emissions/OXBUDS/0.5x0.5/cmip6_hybrid/v2/CMIP6_hybrid_combined_iso-butane_1960-2020_v2_greg.nc'
 
 # --- BELOW THIS LINE, NOTHING SHOULD NEED TO BE CHANGED ---
 
@@ -90,9 +90,9 @@ ocube.attributes['emission_type']='1' # time series
 ocube.attributes['update_type']='1'   # same as above
 ocube.attributes['update_freq_in_hours']='120' # i.e. 5 days
 ocube.attributes['um_version']='10.6' # UM version
-ocube.attributes['source']='CMIP6_hybrid_combined_iso-butane_1960-2020_v1_greg.nc'
+ocube.attributes['source']='CMIP6_hybrid_combined_iso-butane_1960-2020_v2_greg.nc'
 ocube.attributes['title']='Time-varying monthly surface emissions of iso-butane from 1960 to 2020.'
-ocube.attributes['File_version']='CMIP6_hybrid_v1'
+ocube.attributes['File_version']='CMIP6_hybrid_v2'
 ocube.attributes['File_creation_date']=time.ctime(time.time())
 ocube.attributes['grid']='regular 1.875 x 1.25 degree longitude-latitude grid (N96e)'
 ocube.attributes['history']=time.ctime(time.time())+': '+__file__+' \n'+ocube.attributes['history']
@@ -282,7 +282,7 @@ fillval=1e+20
 ocube.data = numpy.ma.array(data=ocube.data, fill_value=fillval, dtype='float32')
 
 # output file name, based on species
-outpath='ukca_emiss_'+species_name+'.nc'
+outpath='ukca_emiss_iC4H10.nc'
 # don't want time to be cattable, as is a periodic emissions file
 iris.FUTURE.netcdf_no_unlimited=True
 # annoying hack to set a missing_value attribute as well as a _FillValue attribute
